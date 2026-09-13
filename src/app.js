@@ -1,51 +1,45 @@
-
-import {displayDashboard } from "../public/display.js"
+import {displayDashboard, displayProfile, displayOffresFlash, displayHistorique, display404, diplayLoginPage, diplayRegisterPage} from "../public/display.js"
 
 function layout(){
-    
-    const page = window.location.pathname ; 
-    
+    const page = window.location.hash;
+console.log(page)
     if(localStorage.getItem("is_log") === "true"){
-        switch(page){ 
-
-            case "/":
-             displayDashboard();
-                break; 
-        
-            case "/dashboard": 
-             displayDashboard();
-                break; 
-        
-            case "/profile":
-            displayProfile();
-               break; 
-        
-            case "/offresFlash":
-             displayOffresFlash();
+        switch(page){
+            case "":
+            case "#":
+            case "#dashboard":
+                displayDashboard();
                 break;
-        
-            case "/Historique":
-             displayHistorique();
+            case "#profile":
+                displayProfile();
+                break;
+            case "#offresFlash":
+                displayOffresFlash();
+                break;
+            case "#historique":
+                displayHistorique();
                 break;
             default:
-          display404();
-                break; 
+                display404();
+                break;
         }
-    
-    }else{
+    } else {
         switch(page){
-    
-            case "/" : 
-             diplayLoginPage(); 
+            case "":
+            case "#":
+            case "#login":
+                diplayLoginPage();
                 break;
-            case "/login" : 
-             diplayLoginPage(); 
+            case "#register":
+                diplayRegisterPage();
                 break;
-            case "/register": 
-             diplayRegisterPage();
+            default:
+                diplayLoginPage();
                 break;
         }
     }
 }
 
-layout()
+
+window.addEventListener("hashchange", layout);
+layout();
