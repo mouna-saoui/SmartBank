@@ -1,0 +1,24 @@
+{
+  "name": "smartbank",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mouna-saoui/SmartBank.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/mouna-saoui/SmartBank/issues"
+  },
+  "homepage": "https://github.com/mouna-saoui/SmartBank#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0"
+  }
+}
