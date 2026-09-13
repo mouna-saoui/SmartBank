@@ -1,13 +1,11 @@
 export function footer(){
+    const p = document.getElementById("app");
+    const footer = document.createElement("footer");
+    footer.classList = "footer";
+    const copyright = document.createElement("p");
+    copyright.classList = "footer-copyright";
+    copyright.textContent = "© 2026 SmartBank — Prototype fictif. Aucune transaction réelle.";
 
-    
-    const p = document.getElementById("footer");
-    
-    const html = p.innerHTML = `
-    <p class="footer-copyright">
-        © 2026 SmartBank — Prototype fictif. Aucune transaction réelle.
-    </p>
-    `
-
-    p.appendChild(html)
+    p.appendChild(footer);
+    footer.appendChild(copyright);
 }
