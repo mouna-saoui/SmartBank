@@ -1,11 +1,16 @@
 export function footer(){
-    const p = document.getElementById("app");
-    const footer = document.createElement("footer");
-    footer.classList = "footer";
-    const copyright = document.createElement("p");
-    copyright.classList = "footer-copyright";
-    copyright.textContent = "© 2026 SmartBank — Prototype fictif. Aucune transaction réelle.";
+    if (document.getElementById("footer")) {
+        return;
+    }
+    const p = document.getElementById("body");
 
-    p.appendChild(footer);
+        const footer = document.createElement("footer");
+        footer.id = "footer";
+
+        const copyright = document.createElement("p");
+        copyright.classList = "footer-copyright";
+        copyright.textContent = "© 2026 SmartBank — Prototype fictif. Aucune transaction réelle.";
+        
+        p.appendChild(footer);
     footer.appendChild(copyright);
 }
