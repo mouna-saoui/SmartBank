@@ -120,7 +120,7 @@ export function diplayRegisterPage(){
 
 export function displayDashboard(){
     const page = document.getElementById("app");
-
+    page.innerHTML = "";
     navBar();
 
     const userData = JSON.parse(localStorage.getItem("user")) || {};
@@ -241,22 +241,116 @@ export function displayOffresFlash(){
     page.innerHTML = "";
     navBar();
 
+    const offres = [
+        { name: "Carte Premium", category: "Carte", description: "Carte bancaire sans frais à l'étranger", discount: 30 },
+        { name: "Prêt Immobilier", category: "Crédit", description: "Taux réduit pour votre premier achat", discount: 15 },
+        { name: "Assurance Auto", category: "Assurance", description: "Couverture complète tous risques", discount: 25 },
+        { name: "Compte Épargne", category: "Épargne", description: "Taux boosté pendant 3 mois", discount: 50 },
+        { name: "Virement Express", category: "Transfert", description: "Virements instantanés sans commission", discount: 100 }
+    ];
+
     const section = document.createElement("section");
     section.classList = "offres-flash";
 
     const title = document.createElement("h2");
     title.textContent = "Offres Flash";
-
     section.appendChild(title);
+
+    // popUp de confirmation
+    const popUp = document.createElement("div");
+    popUp.classList = "popUp-overlay hidden";
+    const popUpBox = document.createElement("div");
+    popUpBox.classList = "popUp-box";
+
+    const popUpTitle = document.createElement("h3");
+    const popUpDesc = document.createElement("p");
+    const popUpDiscount = document.createElement("span");
+    popUpDiscount.classList = "popUp-discount";
+
+    const popUpActions = document.createElement("div");
+    popUpActions.classList = "popUp-actions";
+
+    const btnConfirm = document.createElement("button");
+    btnConfirm.textContent = "Confirmer";
+    btnConfirm.classList = "btn-confirm";
+
+    const btnCancel = document.createElement("button");
+    btnCancel.textContent = "Annuler";
+    btnCancel.classList = "btn-cancel";
+    btnCancel.addEventListener("click", () => popUp.classList.add("hidden"));
+
+    popUpActions.appendChild(btnConfirm);
+    popUpActions.appendChild(btnCancel);
+    popUpBox.appendChild(popUpTitle);
+    popUpBox.appendChild(popUpDesc);
+    popUpBox.appendChild(popUpDiscount);
+    popUpBox.appendChild(popUpActions);
+    popUp.appendChild(popUpBox);
+    page.appendChild(popUp);
+
+    offres.forEach(({ name, category, description, discount }) => {
+        const card = document.createElement("div");
+        card.classList = "offer-card";
+
+        const badge = document.createElement("span");
+        badge.classList = "offer-badge";
+        badge.textContent = "-" + discount + "%";
+
+        const cat = document.createElement("span");
+        cat.classList = "offer-category";
+        cat.textContent = category;
+
+        const offerName = document.createElement("h3");
+        offerName.textContent = name;
+
+        const desc = document.createElement("p");
+        desc.textContent = description;
+
+        const btnSouscrire = document.createElement("button");
+        btnSouscrire.textContent = "Souscrire";
+        btnSouscrire.classList = "btn-souscrire";
+        btnSouscrire.addEventListener("click", () => {
+            popUpTitle.textContent = name;
+            popUpDesc.textContent = description;
+            popUpDiscount.textContent = "-" + discount + "% de réduction";
+            popUp.classList.remove("hidden");
+
+            btnConfirm.onclick = () => {
+                const hist = JSON.parse(localStorage.getItem("historique")) || [];
+                hist.push({
+                    type: "Offre",
+                    montant: name + " (-" + discount + "%)",
+                    date: new Date().toLocaleString()
+                });
+                localStorage.setItem("historique", JSON.stringify(hist));
+                popUp.classList.add("hidden");
+
+                const confirm = document.createElement("div");
+                confirm.classList = "offer-confirmed";
+                confirm.textContent = "✓ Offre souscrite !";
+                
+                card.appendChild(confirm);
+                btnSouscrire.disabled = true;
+                btnSouscrire.textContent = "Souscrit";
+            };
+        });
+
+        card.appendChild(badge);
+        card.appendChild(cat);
+        card.appendChild(offerName);
+        card.appendChild(desc);
+        card.appendChild(btnSouscrire);
+        section.appendChild(card);
+    });
+
     page.appendChild(section);
-
     footer();
-
 }
 
 export function displayHistorique(){
     const page = document.getElementById("app");
     page.innerHTML = "";
+
     navBar();
 
     const section = document.createElement("section");
@@ -275,6 +369,7 @@ export function displayHistorique(){
 
 export function display404(){
     const page = document.getElementById("app");
+    page.innerHTML = "";
     navBar();
 
     const section = document.createElement("section");
