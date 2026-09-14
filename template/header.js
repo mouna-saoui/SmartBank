@@ -1,20 +1,30 @@
 export function navBar(){
-    const p = document.getElementById("app");
-    p.innerHTML = "";
-    const navBar = document.createElement("nav");
-    navBar.classList = "navbar";
-    
+    if (document.getElementById("header")) {
+        return;
+    }
+    const body = document.getElementById("body");
+
+    const app = document.getElementById("app");
+
+
+    const navbar = document.createElement("nav");
+    navbar.id = "header";
+
+    body.insertBefore(navbar, app);
+
     const logo = document.createElement("div");
+    logo.classList = "navbar-logo";
     logo.textContent = "SmartBank";
 
     const nav = document.createElement("div");
+    nav.classList = "navbar-links";
 
     const links = [
         { label: "Dashboard", hash: "#dashboard" },
         { label: "Offres flash", hash: "#offresFlash" },
         { label: "Historique", hash: "#historique" }
     ];
-
+    
     links.forEach(({ label, hash }) => {
         const a = document.createElement("a");
         a.href = hash;
@@ -23,11 +33,12 @@ export function navBar(){
     });
 
     const actions = document.createElement("div");
+    actions.classList = "navbar-actions";
 
     const profileIcon = document.createElement("a");
     profileIcon.href = "#profile";
     profileIcon.innerHTML = '<i class="fa-solid fa-circle-user"></i>';
-
+    
     const logoutIcon = document.createElement("a");
     logoutIcon.href = "#";
     logoutIcon.innerHTML = '<i class="fa-solid fa-arrow-right-from-bracket"></i>';
@@ -35,11 +46,10 @@ export function navBar(){
         localStorage.setItem("is_log", "false");
         window.location.hash = "#login";
     });
-
+    
     actions.appendChild(profileIcon);
     actions.appendChild(logoutIcon);
-    p.appendChild(navBar);
-    navBar.appendChild(logo);
-    navBar.appendChild(nav);
-    navBar.appendChild(actions);
+    navbar.appendChild(logo);
+    navbar.appendChild(nav);
+    navbar.appendChild(actions);
 }
