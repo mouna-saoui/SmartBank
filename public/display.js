@@ -218,10 +218,11 @@ export function displayDashboard(){
 }
 
 export function displayProfile(){
-    
     const page = document.getElementById("app");
     page.innerHTML = "";
     navBar();
+
+    const user = JSON.parse(localStorage.getItem("user")) || {};
 
     const section = document.createElement("section");
     section.classList = "profile";
@@ -229,11 +230,44 @@ export function displayProfile(){
     const title = document.createElement("h2");
     title.textContent = "Mon Profil";
 
+    const avatar = document.createElement("div");
+    avatar.classList = "profile-avatar";
+    avatar.innerHTML = '<i class="fa-solid fa-circle-user"></i>';
+
+    const fullName = document.createElement("p");
+    fullName.classList = "profile-name";
+    fullName.textContent = (user.name || "") + " " + (user.lastName || "");
+
+    const infoBox = document.createElement("div");
+    infoBox.classList = "profile-info";
+
+    [
+        { label: "Email", value: user.email },
+        { label: "Téléphone", value: user.tele }
+    ].forEach(({ label, value }) => {
+        const group = document.createElement("div");
+        group.classList = "profile-group";
+
+        const lbl = document.createElement("span");
+        lbl.classList = "profile-label";
+        lbl.textContent = label;
+
+        const val = document.createElement("span");
+        val.classList = "profile-value";
+        val.textContent = value || "-";
+
+        group.appendChild(lbl);
+        group.appendChild(val);
+        infoBox.appendChild(group);
+    });
+
     section.appendChild(title);
+    section.appendChild(avatar);
+    section.appendChild(fullName);
+    section.appendChild(infoBox);
     page.appendChild(section);
 
     footer();
-
 }
 
 export function displayOffresFlash(){
