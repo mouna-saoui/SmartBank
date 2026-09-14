@@ -1,53 +1,55 @@
-localStorage.setItem("is_log" , "false")
+function hashPassword(passWord){
+    return btoa(passWord)
+}
 
-function register(){
+function unhashPassword(hash){
+    return atob(hash)
+}
 
-    let user = {}
-    
-    const form = document.querySelector("#register")
-    
-    form.addEventListener("submit" ,(event)=>{
+export function register(){
+    const form = document.querySelector("#registerForm")
+    if(!form) return;
 
+    form.addEventListener("submit", (event) => {
         event.preventDefault()
 
-        const name = document.getElementById("name").value
-        const lastName = document.getElementById("prenom").value
-        const email = document.getElementById("email").value
-        const tele = document.getElementById("tele").value
-        const passWord = document.getElementById("passWord").value
-        const hashPassword = Hash(passWord)
-        user = {
-            "name" : name ,
-            "lastName" : lastName , 
-            "email" : email,
-            "tele" : tele,
-            "passWord" : hashPassword
+        const user = {
+            name: document.getElementById("name").value,
+            lastName: document.getElementById("prenom").value,
+            email: document.getElementById("email").value,
+            tele: document.getElementById("tele").value,
+            passWord: hashPassword(document.getElementById("passWord").value)
         }
-    
-        localStorage.setItem("user" , JSON.stringify(user))
-        
+
+        localStorage.setItem("user", JSON.stringify(user))
+        localStorage.setItem("is_log", "false")
+        window.location.hash = "#login"
     })
-    
-
-}    
-
-
-function login(){
-    let is_log = "false"
-    const user = localStorage.getItem("user")
-    const loginEmail = document.getElementById("loginEmail")
-    const loginPassword =document.getElementById("loginPassword")
-
-    if (user[email] === loginEmail && user[passWord] === loginPassword){
-        return is_log = "true"
-    }
-    
-    localStorage.setItem("is_log" , is_log)
 }
 
-function logout(){
-    localStorage.getItem("is_log")
+export function login(){
+    const form = document.querySelector("#loginForm")
+    if(!form) return;
 
-    localStorage.setItem("is_log" , "false")
+    form.addEventListener("submit", (event) => {
+        event.preventDefault()
+
+        const user = JSON.parse(localStorage.getItem("user"))
+        const email = document.getElementById("loginEmail").value
+        const passWord = document.getElementById("loginPassword").value
+
+        if(user && user.email === email && unhashPassword(user.passWord) === passWord){ 
+            localStorage.setItem("is_log", "true")
+            window.location.hash = "#dashboard"
+        } else {
+            alert("Email ou mot de passe incorrect")
+        }
+    })
 }
 
+export function logout(){
+    localStorage.setItem("is_log", "false")
+    localStorage.removeItem("user")
+    localStorage.removeItem("balance")
+    window.location.hash = "#login"
+}
