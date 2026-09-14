@@ -1,3 +1,11 @@
+function hashPassword(passWord){
+    return btoa(passWord)
+}
+
+function unhashPassword(hash){
+    return atob(hash)
+}
+
 export function register(){
     const form = document.querySelector("#registerForm")
     if(!form) return;
@@ -10,7 +18,7 @@ export function register(){
             lastName: document.getElementById("prenom").value,
             email: document.getElementById("email").value,
             tele: document.getElementById("tele").value,
-            passWord: document.getElementById("passWord").value
+            passWord: hashPassword(document.getElementById("passWord").value)
         }
 
         localStorage.setItem("user", JSON.stringify(user))
@@ -30,7 +38,7 @@ export function login(){
         const email = document.getElementById("loginEmail").value
         const passWord = document.getElementById("loginPassword").value
 
-        if(user && user.email === email && user.passWord === passWord){ 
+        if(user && user.email === email && unhashPassword(user.passWord) === passWord){ 
             localStorage.setItem("is_log", "true")
             window.location.hash = "#dashboard"
         } else {
