@@ -41,5 +41,7 @@ export function login(){
 
 export function logout(){
     localStorage.setItem("is_log", "false")
+    localStorage.removeItem("user")
+    localStorage.removeItem("balance")
     window.location.hash = "#login"
 }
