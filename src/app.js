@@ -34,7 +34,7 @@ console.log(page)
                 diplayRegisterPage();
                 break;
             default:
-                diplayLoginPage();
+                display404();
                 break;
         }
     }
